@@ -1,0 +1,3 @@
+This is for the MyTube app
+change the youtube-dl preferences in mytube to be the following
+youtube-dl --no-part -f 5 -o %d -- %s
