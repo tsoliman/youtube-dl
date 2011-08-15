@@ -240,8 +240,7 @@ class FileDownloader(object):
 		"""Returns a temporary filename for the given filename."""
 		if filename == u'-' or (os.path.exists(filename) and not os.path.isfile(filename)):
 			return filename
-		return filename
-		#+ u'.part'
+		return filename + u'.part'
 	
 	@staticmethod
 	def format_bytes(bytes):
@@ -542,7 +541,7 @@ class FileDownloader(object):
 				break
 		if retval == 0:
 			self.to_screen(u'\r[rtmpdump] %s bytes' % os.path.getsize(tmpfilename))
-			#self.try_rename(tmpfilename, filename)
+			self.try_rename(tmpfilename, filename)
 			return True
 		else:
 			self.trouble(u'\nERROR: rtmpdump exited with code %d' % retval)
