@@ -7,6 +7,7 @@
 # Author: Witold Baryluk
 # Author: Paweł Paprota
 # Author: Gergely Imreh
+# Author: Tarek Soliman
 # License: Public domain code
 import cookielib
 import ctypes
