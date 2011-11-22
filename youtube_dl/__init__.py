@@ -11,7 +11,6 @@ __author__  = (
 	'Gergely Imreh',
 	'Rogério Brito',
 	'Philipp Hagemeister',
-	'Tarek Soliman',
 	'Sören Schulze',
 	'Kevin Ngo',
 	'Ori Avtalion',
@@ -652,25 +651,10 @@ class FileDownloader(object):
 		"""Report download progress."""
 		if self.params.get('noprogress', False):
 			return
-		#CHANGED BY ENGMEX
-		percent_str = percent_str.rstrip('%')
-		percent_str = float(percent_str)
-                if data_len_str.rfind('M') > -1:
-			data_len_str = data_len_str.rstrip('M')
-                        data_len_str = 1024*float(data_len_str)
-		else:
-			data_len_str = data_len_str.rstrip('k')
-			data_len_str = float(data_len_str)
-		counter = float(((data_len_str)/100)*percent_str)
-                data_len_str = data_len_str/1024
-		if counter < 1024:
-			self.to_screen(u'\nRetrieving video data: %5s%% (%8.2fk of %8.2fM) at %8s/s ETA %s ' %
-			(percent_str, counter, data_len_str, speed_str, eta_str), skip_eol=True)
-		else:
-			counter = counter/1024
-			self.to_screen(u'\nRetrieving video data: %5s%% (%8.2fM of %sM) at %8s/s ETA %s ' %
-			(percent_str, counter, data_len_str, speed_str, eta_str), skip_eol=True)
-		#END ENGMEX
+		self.to_screen(u'\r[download] %s of %s at %s ETA %s' %
+				(percent_str, data_len_str, speed_str, eta_str), skip_eol=True)
+		self.to_cons_title(u'youtube-dl - %s of %s at %s ETA %s' %
+				(percent_str.strip(), data_len_str.strip(), speed_str.strip(), eta_str.strip()))
 
 	def report_resuming_byte(self, resume_len):
 		"""Report attempt to resume at given byte."""
@@ -708,7 +692,7 @@ class FileDownloader(object):
 			template_dict = dict(info_dict)
 			template_dict['epoch'] = unicode(long(time.time()))
 			template_dict['autonumber'] = unicode('%05d' % self._num_downloads)
-			filename = self.params['outtmpl'].replace('%','%%') % template_dict
+			filename = self.params['outtmpl'] % template_dict
 			return filename
 		except (ValueError, KeyError), err:
 			self.trouble(u'ERROR: invalid system charset or erroneous output template')
